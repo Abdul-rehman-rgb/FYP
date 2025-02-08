@@ -1,15 +1,68 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, StyleSheet } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-// Screen
+// Screens
 import Chat from './Chat';
 import Courses from './Courses';
 import Library from './Library';
 import Home from './Home';
 import Setting from './Setting';
+import Attendance from '../components/Home/attendance/Attendance';
+import ReminderLayout from '../(Reminder)/_layout';
+import DuaDhikr from '../components/Home/dua/DuaDhikr';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const BackButton = ({ navigation }) => (
+  <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+    <Image source={require('../assets/icons/left-arrow.png')} style={styles.backArrow} />
+  </TouchableOpacity>
+);
+
+// 🔹 Create a Stack for Home (Including Attendance)
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen
+          name="Attendance"
+          component={Attendance}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTitle: '',
+            headerLeft: () => <BackButton navigation={navigation} />,
+            headerTitleAlign: 'center',
+            headerStyle: { backgroundColor: '#fff' },
+          })}
+        />
+        <Stack.Screen
+          name="DuaDhikr"
+          component={DuaDhikr}
+          options={({ navigation }) => ({
+            headerShown: true,
+            headerTitle: '',
+            headerLeft: () => <BackButton navigation={navigation} />,
+            headerTitleAlign: 'center',
+            headerStyle: { backgroundColor: '#fff' },
+          })}
+        />
+        <Stack.Screen
+                  name="(Reminder)"
+                  component={ReminderLayout}
+                  options={({ navigation }) => ({
+                    headerShown: true,
+                    headerTitle: 'Reminder',
+                    headerLeft: () => <BackButton navigation={navigation} />,
+                    headerTitleAlign: 'center',
+                    headerStyle: { backgroundColor: '#fff' },
+                  })}
+                />
+    </Stack.Navigator>
+  );
+};
 
 const TabsLayout = () => {
   return (
@@ -17,12 +70,13 @@ const TabsLayout = () => {
       screenOptions={{
         tabBarActiveTintColor: '#36B295',
         tabBarInactiveTintColor: '#0000008C',
-        headerShown: false
+        headerShown: false,
       }}>
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeStack"
+        component={HomeStack}
         options={{
+          tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => (
             <Image 
               source={require('../assets/icons/home.png')} 
@@ -67,7 +121,6 @@ const TabsLayout = () => {
           ),
         }}
       />
-
       <Tab.Screen
         name="Setting"
         component={Setting}
@@ -88,6 +141,18 @@ const styles = StyleSheet.create({
   tabIcon: {
     width: 24, 
     height: 24, 
+    resizeMode: 'contain',
+  },
+  backButton: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: '#1212120D',
+    borderRadius: 100,
+  },
+  backArrow: {
+    width: 20,
+    height: 20,
+    tintColor: '#000',
     resizeMode: 'contain',
   },
 });

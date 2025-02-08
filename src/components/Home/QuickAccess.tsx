@@ -45,7 +45,7 @@ const QuickAccess = () => {
       <View style={styles.box}>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/dua.png')} />
-          <Text style={styles.SubTitle}> Dua Q&A </Text>
+          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('DuaDhikr')}}> Dua Q&A </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/book.png')} />

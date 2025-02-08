@@ -22,7 +22,7 @@ const DATA = [
 
 const Home = ({userName = 'Talha Saeed'}) => {
   return (
-    <ScrollView>
+    <>
       <ImageBackground
         style={styles.wrapper}
         source={require('../assets/images/Bg.png')}
@@ -88,14 +88,14 @@ const Home = ({userName = 'Talha Saeed'}) => {
         </View>
       </ImageBackground>
       <QuickAccess />
-    </ScrollView>
+      </>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#0C3E35', // Wrapper with a red background
+    backgroundColor: '#0C3E35',
   },
   container: {
     padding: 16,
