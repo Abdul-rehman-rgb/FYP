@@ -33,9 +33,9 @@ const QuickAccess = () => {
           <Image source={require('../../assets/icons/clock1.png')} />
           <Text style={styles.SubTitle}> Reminder </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.innerBox}>
+        <TouchableOpacity style={styles.innerBox} onPress={()=>{navigation.navigate('Attendance')}}>
           <Image source={require('../../assets/icons/attendance.png')} />
-          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('Attendance')}}> Attendance </Text>
+          <Text style={styles.SubTitle} > Attendance </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/task.png')} />
@@ -43,9 +43,9 @@ const QuickAccess = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.box}>
-        <TouchableOpacity style={styles.innerBox}>
+        <TouchableOpacity style={styles.innerBox} onPress={()=>{navigation.navigate('DuaDhikr')}}>
           <Image source={require('../../assets/icons/dua.png')} />
-          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('DuaDhikr')}}> Dua Q&A </Text>
+          <Text style={styles.SubTitle} > Dua Q&A </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/book.png')} />
