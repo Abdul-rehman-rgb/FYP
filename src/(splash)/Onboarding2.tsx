@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import RoleSelect from '../components/RoleSelect';
 import ConfirmBtn from '../components/ConfirmBtn';
 import Heading from '../components/Heading';
@@ -13,44 +19,41 @@ const RoleSelection = ({ navigation }) => {
 
   const handleConfirm = () => {
     if (selectedRole) {
-      navigation.navigate('(auth)', { role: selectedRole });
+      navigation.navigate('(auth)', { role: selectedRole }); // Ensure 'AuthScreen' is correct
     }
   };
-  
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer} 
+        keyboardShouldPersistTaps="handled"
+      >
         <Heading heading="What are you looking to be?" />
 
-        <RoleSelect
-          Role="Student"
-          imgSrc={require('../assets/icons/User.png')}
-          Desc="Access Student Features"
-          onPress={() => handleRoleSelect('Student')}
-        />
+        {['Student', 'Teacher', 'Parent'].map((role) => (
+          <RoleSelect
+            key={role}
+            Role={role}
+            imgSrc={require('../assets/icons/User.png')}
+            Desc={
+              role === 'Student'
+                ? "Access Student Features"
+                : role === 'Teacher'
+                ? "Manage Teaching Resources"
+                : "Monitor Your Child's Progress"
+            }
+            onPress={() => handleRoleSelect(role)}
+            isSelected={selectedRole === role} // Highlight selected role
+          />
+        ))}
 
-        <RoleSelect
-          Role="Teacher"
-          imgSrc={require('../assets/icons/User.png')}
-          Desc="Manage Teaching Resources"
-          onPress={() => handleRoleSelect('Teacher')}
-        />
-
-        <RoleSelect
-          Role="Parent"
-          imgSrc={require('../assets/icons/User.png')}
-          Desc="Monitor Your Child's Progress"
-          onPress={() => handleRoleSelect('Parent')}
-        />
-
-        <ConfirmBtn
-          title="Confirm"
-          handlePress={handleConfirm}
-          disabled={!selectedRole}
-        />
+        <ConfirmBtn title="Confirm" handlePress={handleConfirm} disabled={!selectedRole} />
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -61,5 +64,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center', // Center the content when few options
   },
 });

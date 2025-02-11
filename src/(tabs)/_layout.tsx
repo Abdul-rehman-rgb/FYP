@@ -1,7 +1,7 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 // Screens
 import Chat from './Chat';
@@ -12,54 +12,91 @@ import Setting from './Setting';
 import Attendance from '../components/Home/attendance/Attendance';
 import ReminderLayout from '../(Reminder)/_layout';
 import DuaDhikr from '../components/Home/dua/DuaDhikr';
+import DuaDetail from '../components/Home/dua/DuaDetail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const BackButton = ({ navigation }) => (
-  <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-    <Image source={require('../assets/icons/left-arrow.png')} style={styles.backArrow} />
+const BackButton = ({navigation}) => (
+  <>
+  <TouchableOpacity
+    onPress={() => navigation.goBack()}
+    style={styles.backButton}>
+    <Image
+      source={require('../assets/icons/left-arrow.png')}
+      style={styles.backArrow}
+    />
   </TouchableOpacity>
+</>
+);
+const Search = () => (
+  <>
+  <TouchableOpacity
+  style={styles.backButton}>
+  <Image
+    source={require('../assets/icons/bookmark.png')}
+    style={styles.backArrow}
+  />
+</TouchableOpacity>
+<TouchableOpacity
+  style={styles.backButton}>
+  <Image
+    source={require('../assets/icons/search-md.png')}
+    style={styles.backArrow}
+  />
+</TouchableOpacity>
+</>
 );
 
-// 🔹 Create a Stack for Home (Including Attendance)
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen
-          name="Attendance"
-          component={Attendance}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTitle: '',
-            headerLeft: () => <BackButton navigation={navigation} />,
-            headerTitleAlign: 'center',
-            headerStyle: { backgroundColor: '#fff' },
-          })}
-        />
-        <Stack.Screen
-          name="DuaDhikr"
-          component={DuaDhikr}
-          options={({ navigation }) => ({
-            headerShown: true,
-            headerTitle: '',
-            headerLeft: () => <BackButton navigation={navigation} />,
-            headerTitleAlign: 'center',
-            headerStyle: { backgroundColor: '#fff' },
-          })}
-        />
-        <Stack.Screen
-                  name="(Reminder)"
-                  component={ReminderLayout}
-                  options={({ navigation }) => ({
-                    headerShown: true,
-                    headerTitle: 'Reminder',
-                    headerLeft: () => <BackButton navigation={navigation} />,
-                    headerTitleAlign: 'center',
-                    headerStyle: { backgroundColor: '#fff' },
-                  })}
-                />
+        name="Attendance"
+        component={Attendance}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: '',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
+      <Stack.Screen
+        name="DuaDhikr"
+        component={DuaDhikr}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: '',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
+       <Stack.Screen
+        name="DuaDetail"
+        component={DuaDetail}
+        options={({route, navigation}) => ({
+          headerShown: true,
+          headerTitle: route.params?.dua?.title || 'Dua Detail',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerRight: () =><Search navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
+      <Stack.Screen
+        name="(Reminder)"
+        component={ReminderLayout}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: 'Reminder',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
     </Stack.Navigator>
   );
 };
@@ -77,10 +114,13 @@ const TabsLayout = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <Image 
-              source={require('../assets/icons/home.png')} 
-              style={[styles.tabIcon, { tintColor: focused ? '#36B295' : '#0000008C' }]} 
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={require('../assets/icons/home.png')}
+              style={[
+                styles.tabIcon,
+                {tintColor: focused ? '#36B295' : '#0000008C'},
+              ]}
             />
           ),
         }}
@@ -89,10 +129,13 @@ const TabsLayout = () => {
         name="Courses"
         component={Courses}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Image 
-              source={require('../assets/icons/courses.png')} 
-              style={[styles.tabIcon, { tintColor: focused ? '#36B295' : '#0000008C' }]} 
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={require('../assets/icons/courses.png')}
+              style={[
+                styles.tabIcon,
+                {tintColor: focused ? '#36B295' : '#0000008C'},
+              ]}
             />
           ),
         }}
@@ -101,10 +144,13 @@ const TabsLayout = () => {
         name="Library"
         component={Library}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Image 
-              source={require('../assets/icons/library.png')} 
-              style={[styles.tabIcon, { tintColor: focused ? '#36B295' : '#0000008C' }]} 
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={require('../assets/icons/library.png')}
+              style={[
+                styles.tabIcon,
+                {tintColor: focused ? '#36B295' : '#0000008C'},
+              ]}
             />
           ),
         }}
@@ -113,10 +159,13 @@ const TabsLayout = () => {
         name="Chat"
         component={Chat}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Image 
-              source={require('../assets/icons/chat.png')} 
-              style={[styles.tabIcon, { tintColor: focused ? '#36B295' : '#0000008C' }]} 
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={require('../assets/icons/chat.png')}
+              style={[
+                styles.tabIcon,
+                {tintColor: focused ? '#36B295' : '#0000008C'},
+              ]}
             />
           ),
         }}
@@ -125,10 +174,13 @@ const TabsLayout = () => {
         name="Setting"
         component={Setting}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Image 
-              source={require('../assets/icons/setting.png')} 
-              style={[styles.tabIcon, { tintColor: focused ? '#36B295' : '#0000008C' }]} 
+          tabBarIcon: ({focused}) => (
+            <Image
+              source={require('../assets/icons/setting.png')}
+              style={[
+                styles.tabIcon,
+                {tintColor: focused ? '#36B295' : '#0000008C'},
+              ]}
             />
           ),
         }}
@@ -139,8 +191,8 @@ const TabsLayout = () => {
 
 const styles = StyleSheet.create({
   tabIcon: {
-    width: 24, 
-    height: 24, 
+    width: 24,
+    height: 24,
     resizeMode: 'contain',
   },
   backButton: {
@@ -150,8 +202,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   backArrow: {
-    width: 20,
-    height: 20,
     tintColor: '#000',
     resizeMode: 'contain',
   },

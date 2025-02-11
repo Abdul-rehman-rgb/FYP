@@ -1,66 +1,32 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import duasData from './Data';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Sleeping',
-    image: require('../../../assets/icons/DuaDhikr/moon.png'),
-  }, // Local image
-  {
-    id: '2',
-    title: 'Toilet',
-    image: require('../../../assets/icons/DuaDhikr/toilet.png'),
-  }, // Remote image
-  {
-    id: '3',
-    title: 'Ablution',
-    image: require('../../../assets/icons/DuaDhikr/drops.png'),
-  },
-  {
-    id: '4',
-    title: 'Mosque',
-    image: require('../../../assets/icons/DuaDhikr/mosque.png'),
-  },
-  {
-    id: '5',
-    title: 'Food',
-    image: require('../../../assets/icons/DuaDhikr/food.png'),
-  },
-  {
-    id: '6',
-    title: 'Travel',
-    image: require('../../../assets/icons/DuaDhikr/travel.png'),
-  },
-];
+const DuaCard = ({ title, image, dua }) => {
+  const navigation = useNavigation();
 
-const DuaCard = ({title, image}) => {
   return (
-    <View style={styles.card}>
-      <Image
-        source={typeof image === 'string' ? {uri: image} : image} // Handles both local & remote images
-        style={styles.icon}
-      />
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate('DuaDetail', { dua })} // Passing dua details
+    >
+      <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.icon} />
       <Text style={styles.title}>{title}</Text>
-      <Image
-        source={require('../../../assets/icons/rightarrowblack.png')} // Always local
-        style={styles.arrowIcon}
-      />
-    </View>
+      <Image source={require('../../../assets/icons/rightarrowblack.png')} style={styles.arrowIcon} />
+    </TouchableOpacity>
   );
 };
 
 const Dua = () => {
   return (
-    <View style={{flexDirection: 'column'}}>
+    <View style={{ flexDirection: 'column' }}>
       <Text style={styles.heading}>Dua’s</Text>
       <FlatList
-        data={DATA}
-        keyExtractor={item => item.id}
+        data={duasData}
+        keyExtractor={(item) => item.id.toString()}
         scrollEnabled={false}
-        renderItem={({item}) => (
-          <DuaCard title={item.title} image={item.image} />
-        )}
+        renderItem={({ item }) => <DuaCard title={item.title} image={item.image} dua={item} />}
       />
     </View>
   );
@@ -84,7 +50,9 @@ const styles = StyleSheet.create({
     height: 70,
   },
   icon: {
-    resizeMode: 'cover',
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
     marginRight: 20,
   },
   title: {
@@ -93,6 +61,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   arrowIcon: {
+    width: 20,
+    height: 20,
     resizeMode: 'contain',
   },
 });

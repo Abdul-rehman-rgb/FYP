@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const RoleSelect = ({ Role, imgSrc, Desc, onPress }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handlePress = () => {
-    setIsSelected(true);
-    onPress();
-  };
-
+const RoleSelect = ({ Role, imgSrc, Desc, onPress, isSelected }) => {
   return (
     <TouchableOpacity
       style={[styles.touchable, isSelected && styles.selectedBorder]}
       activeOpacity={0.8}
-      onPress={handlePress}
+      onPress={onPress} // No need to set `isSelected` inside this component
     >
       <LinearGradient
         colors={isSelected ? ['#0f9b0f', '#095C47'] : ['#ffffff', '#ffffff']}
@@ -40,11 +33,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 12,
     borderColor: '#12121226',
-    borderWidth: 1
+    borderWidth: 1,
   },
   selectedBorder: {
-    borderColor: '#12121226',
-    borderWidth: 1,
+    borderColor: '#0f9b0f',
+    borderWidth: 2,
   },
   RoleContainer: {
     padding: 15,
@@ -58,16 +51,16 @@ const styles = StyleSheet.create({
   },
   RoleTitle: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
     color: '#121212',
     marginBottom: 8,
-    lineHeight: 19
+    lineHeight: 19,
   },
   RoleDesc: {
     color: '#12121280',
     fontSize: 16,
-    fontWeight: 500,
-    lineHeight: 24
+    fontWeight: '500',
+    lineHeight: 24,
   },
   textWhite: {
     color: '#ffffff',

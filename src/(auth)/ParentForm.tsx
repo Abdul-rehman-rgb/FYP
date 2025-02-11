@@ -2,15 +2,12 @@ import { View, StyleSheet, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import FormField from '../components/FormField';
 import ConfirmBtn from '../components/ConfirmBtn';
 
-const StudentForm = () => {
-  const navigation = useNavigation(); // Ensure navigation is initialized
-
+const ParentForm = ({ navigation }) => {
   const [form, setForm] = useState({
     studentId: '',
     email: '',
@@ -38,7 +35,7 @@ const StudentForm = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Heading heading="Enter Information" />
+          <Heading heading="Enter Information Parent" />
           <Paragraph paragraph="Provide your details to continue" />
 
           <FormField
@@ -84,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentForm;
+export default ParentForm;
