@@ -5,20 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import Card from './Card';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Foundations of Quranic Recitation',
-  },
-  {
-    id: '2',
-    title: 'Foundations of Quranic Recitation',
-  },
-  {
-    id: '3',
-    title: 'Foundations of Quranic Recitation',
-  },
-];
+
 
 const QuickAccess = () => {
   const navigation = useNavigation();
@@ -33,9 +20,9 @@ const QuickAccess = () => {
           <Image source={require('../../assets/icons/clock1.png')} />
           <Text style={styles.SubTitle}> Reminder </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.innerBox}>
+        <TouchableOpacity style={styles.innerBox} onPress={()=>{navigation.navigate('Attendance')}}>
           <Image source={require('../../assets/icons/attendance.png')} />
-          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('Attendance')}}> Attendance </Text>
+          <Text style={styles.SubTitle} > Attendance </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/task.png')} />
@@ -43,9 +30,9 @@ const QuickAccess = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.box}>
-        <TouchableOpacity style={styles.innerBox}>
+        <TouchableOpacity style={styles.innerBox} onPress={()=>{navigation.navigate('DuaDhikr')}}>
           <Image source={require('../../assets/icons/dua.png')} />
-          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('DuaDhikr')}}> Dua Q&A </Text>
+          <Text style={styles.SubTitle} > Dua Q&A </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/book.png')} />
@@ -56,8 +43,9 @@ const QuickAccess = () => {
           <Text style={styles.SubTitle}> Donate </Text>
         </TouchableOpacity>
       </View>
-      <ViewAll title="Technical Courses" PageLink="Courses" />
+      {/* <ViewAll title="Technical Courses" PageLink="Courses" /> */}
       <View style={styles.courseList}>
+<<<<<<< HEAD
       <FlatList
       data={DATA}
       renderItem={({ item }) => <Card title={item.title} />}
@@ -66,6 +54,9 @@ const QuickAccess = () => {
       nestedScrollEnabled={true}
       contentContainerStyle={{ paddingBottom: 20 }}
     />
+=======
+      
+>>>>>>> a90ee6215376d7b728def519e61b655a06065cda
       </View>
     </View>
   );

@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, ImageBackground, Image } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-const Card = ({ title }) => {
+const Card = ({ title,FunctionOnPress }) => {
   return (
-    <View style={styles.wrapper}>
+    <View style={styles.wrapper} >
+      <TouchableOpacity onPress={FunctionOnPress}>
       <ImageBackground
         style={styles.cardImage}
         source={require('../../assets/images/card.png')}
@@ -21,6 +22,7 @@ const Card = ({ title }) => {
           <Text style={styles.ratingText}>4.64</Text>
         </View>
       </View>
+      </TouchableOpacity>
     </View>
   );
 };
