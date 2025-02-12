@@ -23,6 +23,7 @@ const DATA = [
 const Home = ({userName = 'Talha Saeed'}) => {
   return (
     <>
+    <ScrollView>
       <ImageBackground
         style={styles.wrapper}
         source={require('../assets/images/Bg.png')}
@@ -88,6 +89,7 @@ const Home = ({userName = 'Talha Saeed'}) => {
         </View>
       </ImageBackground>
       <QuickAccess />
+      </ScrollView>
       </>
   );
 };

@@ -49,7 +49,7 @@ const QuickAccess = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/book.png')} />
-          <Text style={styles.SubTitle}> Books </Text>
+          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('QuranHadith')}}> Books </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/donate.png')} />
@@ -63,8 +63,8 @@ const QuickAccess = () => {
       renderItem={({ item }) => <Card title={item.title} />}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      nestedScrollEnabled={true} // Allows nested scrolling inside another ScrollView
-      contentContainerStyle={{ paddingBottom: 20 }} // Avoids cutting the last item
+      nestedScrollEnabled={true}
+      contentContainerStyle={{ paddingBottom: 20 }}
     />
       </View>
     </View>

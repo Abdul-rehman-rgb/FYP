@@ -3,13 +3,13 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import duasData from './Data';
 
-const DuaCard = ({ title, image, dua }) => {
+const QuranCard = ({ title, image, quran }) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => navigation.navigate('DuaDetail', { dua })} // Passing dua details
+      onPress={() => navigation.navigate('QuranDetail', { quran })} // Passing dua details
     >
       <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.icon} />
       <Text style={styles.title}>{title}</Text>
@@ -18,15 +18,15 @@ const DuaCard = ({ title, image, dua }) => {
   );
 };
 
-const Dua = () => {
+const Quran = () => {
   return (
     <View style={{ flexDirection: 'column' }}>
-      <Text style={styles.heading}>Dua’s</Text>
+      <Text style={styles.heading}>Quran</Text>
       <FlatList
         data={duasData}
         keyExtractor={(item) => item.id.toString()}
         scrollEnabled={false}
-        renderItem={({ item }) => <DuaCard title={item.title} image={item.image} dua={item} />}
+        renderItem={({ item }) => <QuranCard title={item.title} image={item.image} quran={item} />}
       />
     </View>
   );
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dua;
+export default Quran;

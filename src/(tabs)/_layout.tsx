@@ -11,8 +11,10 @@ import Home from './Home';
 import Setting from './Setting';
 import Attendance from '../components/Home/attendance/Attendance';
 import ReminderLayout from '../(Reminder)/_layout';
+import QuranHadith from '../components/Home/book/QuranHadith';
 import DuaDhikr from '../components/Home/dua/DuaDhikr';
 import DuaDetail from '../components/Home/dua/DuaDetail';
+import QuranDetail from '../components/Home/book/QuranDetail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -80,6 +82,29 @@ const HomeStack = () => {
         options={({route, navigation}) => ({
           headerShown: true,
           headerTitle: route.params?.dua?.title || 'Dua Detail',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerRight: () =><Search navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
+      <Stack.Screen
+        name="QuranHadith"
+        component={QuranHadith}
+        options={({navigation}) => ({
+          headerShown: true,
+          headerTitle: '',
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />
+      <Stack.Screen
+        name="QuranDetail"
+        component={QuranDetail}
+        options={({route, navigation}) => ({
+          headerShown: true,
+          headerTitle: route.params?.quran?.title || 'Quran Detail',
           headerLeft: () => <BackButton navigation={navigation} />,
           headerRight: () =><Search navigation={navigation} />,
           headerTitleAlign: 'center',
@@ -191,8 +216,6 @@ const TabsLayout = () => {
 
 const styles = StyleSheet.create({
   tabIcon: {
-    width: 24,
-    height: 24,
     resizeMode: 'contain',
   },
   backButton: {
