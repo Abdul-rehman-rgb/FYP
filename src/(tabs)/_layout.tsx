@@ -13,6 +13,11 @@ import Attendance from '../components/Home/attendance/Attendance';
 import ReminderLayout from '../(Reminder)/_layout';
 import DuaDhikr from '../components/Home/dua/DuaDhikr';
 import DuaDetail from '../components/Home/dua/DuaDetail';
+import Quiz from '../components/Quiz';
+import Assignment from '../components/Assignment';
+import CourseDetails from '../components/CourseDetails';
+import AssignmentDetails from '../components/AssignmentDetails';
+import QuizDetails from '../components/QuizDetails';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -101,6 +106,58 @@ const HomeStack = () => {
   );
 };
 
+const CourseStack = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen 
+      name="CoursesMain"
+      component={Courses}
+      options={({navigation}) => ({
+        headerShown: false,
+        headerTitle: '',
+        headerLeft: () => <BackButton navigation={navigation} />,
+        headerTitleAlign: 'center',
+        headerStyle: {backgroundColor: '#fff'},
+      })}
+      />
+      
+      <Stack.Screen
+        name="CourseDetails"
+        component={CourseDetails}
+        options={({route,navigation}) => ({
+          headerShown: true,
+          headerTitle: route.params?.courseTitle,
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />      
+      <Stack.Screen
+        name="AssignmentDetails"
+        component={AssignmentDetails}
+        options={({route,navigation}) => ({
+          headerShown: true,
+          headerTitle: route.params?.assignmentDetail.title,
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />      
+      <Stack.Screen
+        name="QuizDetails"
+        component={QuizDetails}
+        options={({route,navigation}) => ({
+          headerShown: true,
+          headerTitle: route.params?.quizDetail.title,
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerTitleAlign: 'center',
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      />      
+    </Stack.Navigator>
+  )
+};
+
 const TabsLayout = () => {
   return (
     <Tab.Navigator
@@ -126,9 +183,10 @@ const TabsLayout = () => {
         }}
       />
       <Tab.Screen
-        name="Courses"
-        component={Courses}
+        name="CourseStack"
+        component={CourseStack}
         options={{
+          tabBarLabel: 'Courses',
           tabBarIcon: ({focused}) => (
             <Image
               source={require('../assets/icons/courses.png')}

@@ -5,20 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import Card from './Card';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Foundations of Quranic Recitation',
-  },
-  {
-    id: '2',
-    title: 'Foundations of Quranic Recitation',
-  },
-  {
-    id: '3',
-    title: 'Foundations of Quranic Recitation',
-  },
-];
+
 
 const QuickAccess = () => {
   const navigation = useNavigation();
@@ -56,16 +43,9 @@ const QuickAccess = () => {
           <Text style={styles.SubTitle}> Donate </Text>
         </TouchableOpacity>
       </View>
-      <ViewAll title="Technical Courses" PageLink="Courses" />
+      {/* <ViewAll title="Technical Courses" PageLink="Courses" /> */}
       <View style={styles.courseList}>
-      <FlatList
-      data={DATA}
-      renderItem={({ item }) => <Card title={item.title} />}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled={true} // Allows nested scrolling inside another ScrollView
-      contentContainerStyle={{ paddingBottom: 20 }} // Avoids cutting the last item
-    />
+      
       </View>
     </View>
   );
