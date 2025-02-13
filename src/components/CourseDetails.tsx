@@ -1,48 +1,54 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import { FlatList} from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Quiz from './Quiz';
 import Assignment from './Assignment';
+import { useNavigation } from '@react-navigation/native';
+import Material from './Material';
 
-const EnrolledCourseDetails = () => {
+const Tab = createMaterialTopTabNavigator();
+
+
+const CourseDetailTabs = ({state, descriptors, navigation}) => {
+  
   const [active,setActive] = useState('Material')
 
+  const handeOnPress = (routeName)=>{
+    setActive(routeName)
+    navigation.navigate(routeName)
+  }
 
   return (
-    <View>
-      <View style={styles.buttonContainer}>
-        <Pressable style={({pressed})=>[{backgroundColor: pressed? 'rgba(255, 255, 255, 0.19)' : 'white'},styles.btnStyle]} onPress={()=>setActive('Material')}>
-          <View style={{minWidth:1}}>
-          <Text style={styles.btnText} >Material</Text>
-          <View style={active === 'Material' && styles.btnUnderline}/>
-          </View>
-        </Pressable>
+    <View style={styles.buttonContainer}>
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index;
+        const { options } = descriptors[route.key];
 
-        <Pressable style={({pressed})=>[{backgroundColor: pressed? 'rgba(255, 255, 255, 0.19)' : 'white'},styles.btnStyle]} onPress={()=>setActive('Quizes')}>
-          <Text style={styles.btnText} >Quizes</Text>
-          <View style={active === 'Quizes' && styles.btnUnderline}/>
-        </Pressable>
+        return (
 
-        <Pressable style={({pressed})=>[{backgroundColor: pressed? 'rgba(255, 255, 255, 0.19)' : 'white'},styles.btnStyle]} onPress={()=>setActive('Assignments')}>
-          <Text style={styles.btnText} >Assignments</Text>
-          <View style={active === 'Assignments' && styles.btnUnderline}/>
-        </Pressable>
-      </View>
-      <View>
-        {
-          active === 'Quizes' &&
-            <Quiz/>
-        }
-        {
-          active === 'Assignments'  &&
-            <Assignment/>
-        }
-      </View>
+      <Pressable key={route.key} style={({pressed})=>[{backgroundColor: pressed? 'rgba(255, 255, 255, 0.19)' : 'white'},styles.btnStyle]} 
+      onPress={() => handeOnPress(route.name)}>
+        <Text style={styles.btnText} >{route.name}</Text>
+        <View style={active === route.name && styles.btnUnderline}/>
+      </Pressable>
+    );
+    })}
     </View>
-    
   )
 }
+
+
+
+const EnrolledCourseDetails = () => {
+  return (
+    <Tab.Navigator tabBar={(props) => <CourseDetailTabs {...props}/>}>
+      <Tab.Screen name='Material' component={Material}  />
+      <Tab.Screen name='Quiz' component={Quiz}  />
+      <Tab.Screen name='Assignment' component={Assignment}  />
+    </Tab.Navigator>
+  );
+};
+
 
 export default EnrolledCourseDetails
 

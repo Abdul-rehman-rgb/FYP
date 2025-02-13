@@ -8,21 +8,39 @@ const Data = [
     id: '1',
     title: 'Quiz 1',
     dueDate: '20-02-2025',
-    description: 'Details related to quiz',
+    description: 
+    [
+      'Details related to assignment\n',
+      'Q1 question 1 ?\n',
+      'Q2 question 2 ?\n',
+      'Q3 question 3 ?\n',
+    ],
     marks:'5'
   },
   {
     id: '2',
     title: 'Quiz 2',
     dueDate: '20-02-2025',
-    description: 'Details related to quiz',
+    description: 
+    [
+      'Details related to assignment\n',
+      'Q1 question 1 ?\n',
+      'Q2 question 2 ?\n',
+      'Q3 question 3 ?\n',
+    ],
     marks:'5'
   },
   {
     id: '3',
     title: 'Quiz 3',
     dueDate: '20-02-2025',
-    description: 'Details related to quiz',
+    description: 
+    [
+      'Details related to assignment\n',
+      'Q1 question 1 ?\n',
+      'Q2 question 2 ?\n',
+      'Q3 question 3 ?\n',
+    ],
     marks:'5'
   },
 ];
