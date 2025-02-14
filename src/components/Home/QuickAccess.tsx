@@ -34,30 +34,26 @@ const QuickAccess = () => {
           <Image source={require('../../assets/icons/dua.png')} />
           <Text style={styles.SubTitle} > Dua Q&A </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.innerBox}>
+        <TouchableOpacity style={styles.innerBox} onPress={()=>{navigation.navigate('QuranHadith')}}>
           <Image source={require('../../assets/icons/book.png')} />
-          <Text style={styles.SubTitle} onPress={()=>{navigation.navigate('QuranHadith')}}> Books </Text>
+          <Text style={styles.SubTitle} > Books </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.innerBox}>
           <Image source={require('../../assets/icons/donate.png')} />
           <Text style={styles.SubTitle}> Donate </Text>
         </TouchableOpacity>
       </View>
-      {/* <ViewAll title="Technical Courses" PageLink="Courses" /> */}
+      {/* <ViewAll title="Technical Courses" PageLink="Courses" /> 
       <View style={styles.courseList}>
-<<<<<<< HEAD
-      <FlatList
-      data={DATA}
-      renderItem={({ item }) => <Card title={item.title} />}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled={true}
-      contentContainerStyle={{ paddingBottom: 20 }}
-    />
-=======
-      
->>>>>>> a90ee6215376d7b728def519e61b655a06065cda
-      </View>
+        <FlatList
+        data={DATA}
+        renderItem={({ item }) => <Card title={item.title} />}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+        contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </View>*/}
     </View>
   );
 };

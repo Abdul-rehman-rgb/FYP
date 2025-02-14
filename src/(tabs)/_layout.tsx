@@ -14,15 +14,12 @@ import ReminderLayout from '../(Reminder)/_layout';
 import QuranHadith from '../components/Home/book/QuranHadith';
 import DuaDhikr from '../components/Home/dua/DuaDhikr';
 import DuaDetail from '../components/Home/dua/DuaDetail';
-<<<<<<< HEAD
 import QuranDetail from '../components/Home/book/QuranDetail';
-=======
 import Quiz from '../components/Quiz';
 import Assignment from '../components/Assignment';
 import CourseDetails from '../components/CourseDetails';
 import AssignmentDetails from '../components/AssignmentDetails';
 import QuizDetails from '../components/QuizDetails';
->>>>>>> a90ee6215376d7b728def519e61b655a06065cda
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -154,34 +151,12 @@ const CourseStack = () => {
         component={CourseDetails}
         options={({route,navigation}) => ({
           headerShown: true,
-          headerTitle: route.params?.courseTitle,
+          headerTitle: route.params?.course.title,
           headerLeft: () => <BackButton navigation={navigation} />,
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: '#fff'},
         })}
-      />      
-      <Stack.Screen
-        name="AssignmentDetails"
-        component={AssignmentDetails}
-        options={({route,navigation}) => ({
-          headerShown: true,
-          headerTitle: route.params?.assignmentDetail.title,
-          headerLeft: () => <BackButton navigation={navigation} />,
-          headerTitleAlign: 'center',
-          headerStyle: {backgroundColor: '#fff'},
-        })}
-      />      
-      <Stack.Screen
-        name="QuizDetails"
-        component={QuizDetails}
-        options={({route,navigation}) => ({
-          headerShown: true,
-          headerTitle: route.params?.quizDetail.title,
-          headerLeft: () => <BackButton navigation={navigation} />,
-          headerTitleAlign: 'center',
-          headerStyle: {backgroundColor: '#fff'},
-        })}
-      />      
+      />    
     </Stack.Navigator>
   )
 };
@@ -212,9 +187,9 @@ const TabsLayout = () => {
       />
       <Tab.Screen
         name="CourseStack"
-        component={CourseStack}
+        component={Library}
         options={{
-          tabBarLabel: 'Courses',
+          tabBarLabel: 'Quiz',
           tabBarIcon: ({focused}) => (
             <Image
               source={require('../assets/icons/courses.png')}
@@ -228,8 +203,9 @@ const TabsLayout = () => {
       />
       <Tab.Screen
         name="Library"
-        component={Library}
+        component={CourseStack}
         options={{
+          tabBarLabel: 'Courses',
           tabBarIcon: ({focused}) => (
             <Image
               source={require('../assets/icons/library.png')}
