@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native'
 import { FlatList} from 'react-native-gesture-handler';
-import Card from '../components/Home/Card';
+import Card from './Home/Card';
 import { useNavigation } from '@react-navigation/native';
 
 
@@ -43,7 +43,9 @@ const styles = StyleSheet.create(
       paddingTop:10,
     },
     listStyle:{
-      marginTop:10
+      paddingTop:10,
+      paddingHorizontal:20,
+      backgroundColor:'white'
     }
   }
 )

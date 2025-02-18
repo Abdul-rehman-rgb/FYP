@@ -1,101 +1,274 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button, TouchableOpacity, Image } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
+import QuizProgressCard from './Home/Progress';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import { useNavigation } from '@react-navigation/native';
 
-const Data = [
-  {
-    id: '1',
-    title: 'Quiz 1',
-    dueDate: '20-02-2025',
-    description: 
-    [
-      'Details related to assignment\n',
-      'Q1 question 1 ?\n',
-      'Q2 question 2 ?\n',
-      'Q3 question 3 ?\n',
-    ],
-    marks:'5'
-  },
-  {
-    id: '2',
-    title: 'Quiz 2',
-    dueDate: '20-02-2025',
-    description: 
-    [
-      'Details related to assignment\n',
-      'Q1 question 1 ?\n',
-      'Q2 question 2 ?\n',
-      'Q3 question 3 ?\n',
-    ],
-    marks:'5'
-  },
-  {
-    id: '3',
-    title: 'Quiz 3',
-    dueDate: '20-02-2025',
-    description: 
-    [
-      'Details related to assignment\n',
-      'Q1 question 1 ?\n',
-      'Q2 question 2 ?\n',
-      'Q3 question 3 ?\n',
-    ],
-    marks:'5'
-  },
+const DATA = [
+  {id: '1', title: 'Item 1', image: 'https://via.placeholder.com/150'},
+  {id: '2', title: 'Item 2', image: 'https://via.placeholder.com/150'},
+  {id: '3', title: 'Item 3', image: 'https://via.placeholder.com/150'},
+  {id: '4', title: 'Item 4', image: 'https://via.placeholder.com/150'},
+];
+const latestQuiz = [
+  {id: '1', title: 'Quiz 1', questions: '20'},
+  {id: '2', title: 'Quiz 2', questions: '20'},
+  {id: '3', title: 'Quiz 3', questions: '20'},
+  {id: '4', title: 'Quiz 4', questions: '20'},
 ];
 
-const QuizCard = ({ quiz }) => {
+const QuizCard = ({ course }) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={()=>{navigation.navigate('QuizDetails', {quizDetail:quiz})}}
+      onPress={()=>{navigation.navigate('QuizDetails', {course:course})}}
     >
-      <Text style={styles.title}>{quiz.title}</Text>
-      <Image source={require('../assets/icons/rightarrowblack.png')} style={styles.arrowIcon} />
+      <Image source={require('../assets/icons/LatestQuizIcon.png')} style={styles.ltQuizIcon}/>
+      <View style={styles.textView}>
+        <Text style={styles.title}>{course.title}</Text>
+        <Text style={styles.questions}>{course.questions} Questions</Text>
+      </View>
+      <View style={{marginRight:40}}>
+      <CircularProgress 
+        value={60}
+        radius={25}
+        progressValueColor='rgba(54,178,149,1)'
+        maxValue={100}
+        progressValueFontSize={18}
+        activeStrokeWidth={5}
+        activeStrokeColor='rgba(54,178,149,1)'
+        inActiveStrokeWidth={5}
+        inActiveStrokeColor='rgba(54,178,149,0.2)'
+        clockwise={false}
+        />
+        </View>
     </TouchableOpacity>
   );
 };
 
-const Quiz = () => {
-  const navigation = useNavigation()
-  return (
-    <View>
-      <FlatList
-        data={Data}
-        renderItem={({ item }) => <QuizCard quiz={item} />}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true} // Allows nested scrolling inside another ScrollView
-        contentContainerStyle={{ paddingBottom: 40 }} // Avoids cutting the last item
-      />
-    </View>
-  )
-}
 
-export default Quiz
+const Quiz = ({userName = 'Talha Saeed',navigation}) => {
+
+  return (
+    <>
+    <View style={styles.mainContainer}>
+      <Image
+              style={styles.headerImg}
+              source={require('../assets/images/QuizHeaderBG.png')}
+              />
+        {/* Header Section */}
+        <View style={styles.container}>
+          <View style={styles.textContainer}>
+            <Text style={styles.greeting}>Assalamualaikum,</Text>
+            <Text style={styles.name}>{userName} 👋</Text>
+          </View>
+
+          <View style={styles.coinContainer}>
+            <Text style={styles.coinText}>600</Text>
+            <View style={styles.coinImageWrapper}>
+              <Image style={styles.coinImage} source={require('../assets/images/coins.png')}/>
+            </View>
+          </View>
+        </View>
+
+        {/* Progress List */}
+        <View style={styles.progressContainer}>
+          <FlatList
+            data={DATA}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <QuizProgressCard title={item.title} image={item.image} />
+            )}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <View style={styles.ltQuizHeadContainer}>
+          <Text style={styles.ltQuizHead}>Latest Quizes</Text>
+        </View>
+        <View style={styles.latestQuiz}>
+            <FlatList
+            data={latestQuiz}
+            keyExtractor={item=> item.id}
+            renderItem={({item})=>( <QuizCard course={item} /> )}
+            />
+        </View>
+      </View>
+      </>
+  );
+};
 
 const styles = StyleSheet.create({
-  card: {
+  mainContainer:{
+    flex:1,
+    backgroundColor:'white'
+  },
+  wrapper: {
+    minHeight:100,
+    backgroundColor: 'white',
+  },
+  container: {
+    padding: 16,
+    marginTop:10,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    justifyContent: 'space-between',
+  },
+  headerImg:{
+      position:'absolute'
+  },
+  textContainer: {
+    flex: 1,
+  },
+  greeting: {
+    fontSize: 14,
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth:2
+  },
+  bellButton: {
+    backgroundColor: '#3C7060',
+    padding: 15,
+    borderRadius: 100,
+  },
+  notificationDot: {
+    position: 'absolute',
+    top: -3,
+    right: -3,
+    width: 8,
+    height: 8,
+    backgroundColor: 'red',
+    borderRadius: 4,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 18,
+    marginLeft: 10,
+    resizeMode: 'contain',
+  },
+  progressContainer: {
+    flexDirection: 'row',
+  },
+  schedule: {
+    backgroundColor: '#0F2823',
+    padding: 16,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  scheduleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  clockIcon: {
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    padding: 7,
+  },
+  scheduleText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 20,
+    flex: 1,
+    marginLeft: 10,
+  },
+  // arrowIcon: {
+  //   marginTop: 5,
+  // },
+  latestQuiz:{
+    flex:1,
+  },
+  card: {
+    flex:1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderWidth:1,
+    borderColor:'rgba(0, 0, 0, 0.15)',
     padding: 10,
-    borderRadius: 8,
-    marginHorizontal: 5,
-    marginVertical: 5,
-    height: 70,
+    borderRadius: 15,
+    marginHorizontal: '5%',
+    marginVertical: '1.5%',
+    height: 80,
   },
   title: {
+    color:'rgb(53, 53, 53)',
     fontSize: 19,
     fontWeight: '500',
-    flex: 1,
   },
   arrowIcon: {
     width: 20,
     height: 20,
     resizeMode: 'contain',
   },
-})
+  ltQuizHeadContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    paddingHorizontal:'5%',
+    marginBottom:10
+  },
+  ltQuizHead:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color:'rgb(25, 25, 25)'
+  },
+  ltQuizIcon:{
+    width:50,
+    height:50,
+    borderRadius:25
+  },
+  textView:{
+    width:'70%',
+    marginLeft:'3%',
+    marginRight:'-4%'
+  },
+  questions:{
+    color:'rgb(133, 133, 133)'
+  },
+  coinContainer:{
+    flex:1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    height:'70%',
+    maxWidth:'24%',
+    borderRadius:25,
+    backgroundColor:'rgb(226, 226, 226)',
+  },
+  coinText:{
+    fontSize:18,
+    fontWeight:'bold',
+    marginLeft:'13%'
+  },
+  coinImage:{
+    height:30,
+    width:30
+  },
+  coinImageWrapper:{
+    backgroundColor:'rgba(54,178,149,1)',
+    borderRadius:25,
+    padding:3
+  }
+});
+
+export default Quiz;

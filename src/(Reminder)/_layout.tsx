@@ -43,17 +43,15 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#F8F8F8',
-    padding: 10,
-    borderRadius: 20,
-    marginHorizontal: 10,
-    marginTop: 10,
+    backgroundColor: 'white',
+    paddingTop: 30,
+    paddingHorizontal:10,
   },
   tabButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
-    backgroundColor: '#00000059',
+    backgroundColor: '#00000049',
   },
   activeTab: {
     backgroundColor: '#121212',

@@ -20,16 +20,16 @@ const StudentForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = () => {
-    if (!form.studentId || !form.email || !form.password) {
-      Alert.alert('Error', 'All fields are required!');
-      return;
-    }
+    // if (!form.studentId || !form.email || !form.password) {
+    //   Alert.alert('Error', 'All fields are required!');
+    //   return;
+    // }
 
     setIsSubmitting(true);
 
     setTimeout(() => {
       setIsSubmitting(false);
-      Alert.alert('Success', 'Registration completed!');
+      // Alert.alert('Success', 'Registration completed!');
       navigation.replace('(tabs)'); // Navigate to the main app
     }, 1500);
   };

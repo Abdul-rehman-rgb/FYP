@@ -16,10 +16,9 @@ import DuaDhikr from '../components/Home/dua/DuaDhikr';
 import DuaDetail from '../components/Home/dua/DuaDetail';
 import QuranDetail from '../components/Home/book/QuranDetail';
 import Quiz from '../components/Quiz';
-import Assignment from '../components/Assignment';
 import CourseDetails from '../components/CourseDetails';
-import AssignmentDetails from '../components/AssignmentDetails';
 import QuizDetails from '../components/QuizDetails';
+import Leaderboard from '../components/Leaderboard';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -57,7 +56,7 @@ const Search = () => (
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{headerShown: false, }}>
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen
         name="Attendance"
@@ -67,7 +66,7 @@ const HomeStack = () => {
           headerTitle: '',
           headerLeft: () => <BackButton navigation={navigation} />,
           headerTitleAlign: 'center',
-          headerStyle: {backgroundColor: '#fff'},
+          headerStyle: {backgroundColor: 'white',elevation: 0},
         })}
       />
       <Stack.Screen
@@ -160,11 +159,42 @@ const CourseStack = () => {
     </Stack.Navigator>
   )
 };
+const QuizStack = () => {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen 
+      name="QuizMain"
+      component={Quiz}
+      options={({navigation}) => ({
+        headerShown: false,
+        headerTitle: '',
+        headerLeft: () => <BackButton navigation={navigation} />,
+        headerTitleAlign: 'center',
+        headerStyle: {backgroundColor: '#fff'},
+      })}
+      />
+      
+      <Stack.Screen
+        name="QuizDetails"
+        component={QuizDetails}
+        options={({navigation}) => ({
+          headerShown: false,
+          headerLeft: () => <BackButton navigation={navigation} />,
+          headerStyle: {backgroundColor: '#fff'},
+        })}
+      /> 
+    </Stack.Navigator>
+  )
+};
 
 const TabsLayout = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarStyle:{
+          height:'10%',
+          paddingTop:'2%'
+        },
         tabBarActiveTintColor: '#36B295',
         tabBarInactiveTintColor: '#0000008C',
         headerShown: false,
@@ -186,8 +216,8 @@ const TabsLayout = () => {
         }}
       />
       <Tab.Screen
-        name="CourseStack"
-        component={Library}
+        name="QuizStack"
+        component={QuizStack}
         options={{
           tabBarLabel: 'Quiz',
           tabBarIcon: ({focused}) => (
@@ -202,7 +232,7 @@ const TabsLayout = () => {
         }}
       />
       <Tab.Screen
-        name="Library"
+        name="CourseStack"
         component={CourseStack}
         options={{
           tabBarLabel: 'Courses',
@@ -218,15 +248,17 @@ const TabsLayout = () => {
         }}
       />
       <Tab.Screen
-        name="Chat"
-        component={Chat}
+        name="Ranking"
+        component={Leaderboard}
         options={{
           tabBarIcon: ({focused}) => (
             <Image
-              source={require('../assets/icons/chat.png')}
+              source={require('../assets/icons/ranking.png')}
               style={[
                 styles.tabIcon,
-                {tintColor: focused ? '#36B295' : '#0000008C'},
+                {tintColor: focused ? '#36B295' : '#0000008C',
+                  height:'100%'
+                },
               ]}
             />
           ),
@@ -256,8 +288,8 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   backButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    padding: 15,
+    marginVertical:15,
     backgroundColor: '#1212120D',
     borderRadius: 100,
   },

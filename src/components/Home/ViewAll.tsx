@@ -13,7 +13,7 @@ const ViewAll = ({ title, PageLink }) => {
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <TouchableOpacity onPress={viewPage}>
-        <Text style={styles.viewAllText}>View All</Text>
+        {/* <Text style={styles.viewAllText}>View All</Text> */}
       </TouchableOpacity>
     </View>
   );

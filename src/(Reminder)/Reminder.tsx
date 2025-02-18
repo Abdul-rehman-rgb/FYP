@@ -70,7 +70,11 @@ const ReminderScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: 'white' },
+  container: { 
+    flex: 1,
+    padding: 20,
+    backgroundColor: 'white',
+  },
   addButton: {
     backgroundColor: '#121212',
     height: 57,

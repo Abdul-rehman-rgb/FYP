@@ -5,12 +5,13 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  TextInput,
   FlatList
 } from 'react-native';
-import React from 'react';
-import { useNavigation } from '@react-navigation/native'; // ✅ Import useNavigation
+import React,{useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
 import HeadderHeading from '../components/Home/HeadderHeading';
-import Paragraph from '../components/Paragraph';
+import Card from '../components/Home/Card';
 
 const Data = 
 [
@@ -199,6 +200,35 @@ const Data =
   },
 ];
 
+const QuranCourses = [
+  {id: '1', name: 'Quran Reading for Beginners'},
+  {id: '2', name: 'Noorani Qaida: Learn to Read Quran'},
+  {id: '3', name: 'Tajweed Basics: Proper Quranic Pronunciation'},
+  {id: '4', name: 'Quranic Arabic for Beginners'},
+  {id: '5', name: 'Quranic Retention Techniques'},
+  {id: '6', name: 'Introduction to Quranic Tafsir'},
+  {id: '7', name: 'Mastering Quranic Tajweed'},
+];
+const HadeesCourses = [
+  {id: '1', name: 'Foundations of Hadith: An Introduction'},
+  {id: '2', name: 'What is Hadith? Understanding Prophetic Teachings'},
+  {id: '3', name: 'The Role of Hadith in Islam'},
+  {id: '4', name: 'Principles of Hadith Authentication'},
+  {id: '5', name: 'Introduction to Ilm al-Rijal (Science of Narrators)'},
+  {id: '6', name: 'Hadith Compilation & Preservation'},
+  {id: '7', name: "Understanding Sahih, Da'if, and Mawdu' Hadith"},
+];
+const DunyawiCourses = [
+  {id: '1', name: 'Islamic Time Management: Balancing Deen & Dunya'},
+  {id: '2', name: 'Success & Leadership in Light of Islam'},
+  {id: '3', name: 'Emotional Intelligence & Self-Development in Islam'},
+  {id: '4', name: 'Mindfulness & Mental Well-being in Islam'},
+  {id: '5', name: 'Islamic Finance & Halal Investment'},
+  {id: '6', name: 'Business Ethics in Islam'},
+  {id: '7', name: 'Zakat & Wealth Management'},
+];
+
+
 const CoursesCard = ({ course }) => {
   const navigation = useNavigation();
   return (
@@ -206,7 +236,7 @@ const CoursesCard = ({ course }) => {
       style={styles.card}
       onPress={()=>{navigation.navigate('CourseDetails', {course:course})}}
     >
-      <Text style={styles.title}>{course.title}</Text>
+      <Text style={styles.title2}>{course.title}</Text>
       <Image source={require('../assets/icons/rightarrowblack.png')} style={styles.arrowIcon} />
     </TouchableOpacity>
   );
@@ -214,25 +244,92 @@ const CoursesCard = ({ course }) => {
 
 const Courses = () => {
   const navigation = useNavigation(); 
+  const [query, setQuery] = useState('');
+  const [active, setActive] = useState('QuranCourses')
+  const [courseType,setCourseType] = useState(QuranCourses)
 
+  const handleSearch = (text) => {
+    setQuery(text);
+    // Add your search logic here
+    console.log('Searching for:', text);
+  };
   
+  const handleOnPress = (item)=>{
+    setActive(item)
+    if(item === 'QuranCourses')
+    {
+      setCourseType(QuranCourses)
+    }
+    else if(item === 'HadeesCourses')
+    {
+      setCourseType(HadeesCourses)
+    }
+    else if(item === 'DunyawiCourses')
+    {
+      setCourseType(DunyawiCourses)
+    }
+  }
+
   return (
-    <ScrollView style={styles.container}>
-    <HeadderHeading HeadTitle="Technical Courses" />
-    {Data.map((type)=>(
-      <View key={type.id}>
-      <Text style={styles.title}>{type.category}</Text>
+    <View style={styles.container}>
+      
+      <View style={styles.searchContainer}>
+        {/* <TextInput
+          style={styles.input}
+          placeholder="Search..."
+          value={query}
+          onChangeText={handleSearch}
+        /> */}
+        <View style={{flexDirection:'row',alignItems:'center',marginLeft:'-3%'}}>
+        <Image style={{height:40}} resizeMode='contain' source={require('../assets/images/logo.png')}/>
+        <Text style={{fontSize:28,fontWeight:'bold'}}>Ilm Pro</Text>
+        </View>
+        <View style={styles.searchContainer2}>
+        <Image style={styles.searchIcon} source={require('../assets/icons/search-md.png')}/>
+        </View>
+      </View>
+      <Text style={styles.header}>Latest Courses</Text>
+      <View style={styles.tabContainer}>
+        <TouchableOpacity style={styles.tabButtons} onPress={()=>handleOnPress('QuranCourses')}>
+          <Text style={styles.tabButtonText}>Quran</Text>
+          {active === 'QuranCourses' &&
+          <View style={styles.underline}></View>
+          }
+          </TouchableOpacity>
+        <TouchableOpacity style={styles.tabButtons} onPress={()=>handleOnPress('HadeesCourses')}>
+          <Text style={styles.tabButtonText}>Hadees</Text>
+          {active === 'HadeesCourses' &&
+          <View style={styles.underline}></View>
+          }
+          </TouchableOpacity>
+        <TouchableOpacity style={styles.tabButtons} onPress={()=>handleOnPress('DunyawiCourses')}>
+          <Text style={styles.tabButtonText}>Dunyawi</Text>
+          {active === 'DunyawiCourses' &&
+          <View style={styles.underline}></View>
+          }
+          </TouchableOpacity>
+      </View>
+      <View >
       <FlatList
-          data={type.courses}
-          renderItem={({ item }) => <CoursesCard course={item}/>}
+          data={courseType}
+          renderItem={({ item }) => <Card title={item.name}/>}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           nestedScrollEnabled={true} // Allows nested scrolling inside another ScrollView
-          contentContainerStyle={{ paddingBottom: 20 }} // Avoids cutting the last item
+          contentContainerStyle={{ paddingBottom: '40%' }} // Avoids cutting the last item
       />
       </View>
-    ))}
-    </ScrollView>
+      {/* {Data.map((type)=>(
+        <View key={type.id}>
+        <Text style={styles.title}>{type.category}</Text>
+        {type.courses.map((item)=>(
+        <View key={item.id}>
+          <CoursesCard course={item}/>
+        </View>
+        ))}
+        </View>
+      ))} */}
+    </View>
   );
 };
 
@@ -242,19 +339,72 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff',
   },
+  searchContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginVertical:'2%',
+    marginHorizontal:'2%'
+  },
+  input:{
+    width:'80%',
+    backgroundColor:'rgba(235, 235, 235, 0.7)',
+    borderRadius:100,
+    marginRight:'4%',
+    padding:'3%',
+    paddingHorizontal:'5%'
+  },
+  searchContainer2:{
+    alignItems:'flex-end',
+    backgroundColor:'rgba(235, 235, 235, 0.7)',
+    padding:'2%',
+    borderRadius:100
+  },
+  searchIcon:{
+    // padding:15
+    },
+  tabContainer:{
+    // flex:1,
+    flexDirection:'row',
+    width:'100%',
+  },
+  tabButtons:{
+    width:'33%',
+  },
+  tabButtonText:{
+    fontSize:18,
+    textAlign:'center',
+    paddingVertical:'8%'
+  },
+  underline:{
+    borderBottomWidth:2
+  },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'rgba(235, 235, 235, 0.7)',
     padding: 10,
     borderRadius: 8,
     marginHorizontal: 5,
     marginVertical: 5,
     height: 70,
   },
+  header: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#121212',
+    marginVertical: 5,
+    marginTop:0,
+    marginHorizontal:'3%'
+  },
   title: {
-    fontSize: 19,
+    fontSize: 20,
     fontWeight: '500',
+    flex: 1,
+    marginBottom:10
+  },
+  title2: {
+    fontSize: 18,
     flex: 1,
     marginBottom:10
   },
