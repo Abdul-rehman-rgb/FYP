@@ -2,8 +2,10 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import ViewAll from './ViewAll';
 import { useNavigation } from '@react-navigation/native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import Card from './Card';
+import CourseData from './CourseData';
+import Courses from '../../(tabs)/Courses';
 
 
 
@@ -43,17 +45,20 @@ const QuickAccess = () => {
           <Text style={styles.SubTitle}> Donate </Text>
         </TouchableOpacity>
       </View>
-      {/* <ViewAll title="Technical Courses" PageLink="Courses" /> 
+      <ViewAll title="Technical Courses" PageLink="Courses" PageLink={Courses} /> 
       <View style={styles.courseList}>
-        <FlatList
-        data={DATA}
+       <ScrollView>
+       <FlatList
+        data={CourseData}
         renderItem={({ item }) => <Card title={item.title} />}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
+        nestedScrollEnabled={false}
+        scrollEnabled={false}
         contentContainerStyle={{ paddingBottom: 20 }}
         />
-      </View>*/}
+       </ScrollView>
+      </View>
     </View>
   );
 };

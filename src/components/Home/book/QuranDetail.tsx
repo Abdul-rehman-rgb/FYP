@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Paragraph from '../../Paragraph';
 
 const QuranDetail = ({route}) => {
-  const {dua} = route.params; // Get dua data from navigation
+  const {dua} = route.params;
   const [showFull, setShowFull] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ const QuranDetail = ({route}) => {
       </View>
 
       {/* Arabic Text */}
-      <Text style={styles.arabic}>{dua.arabic}</Text>
+       <Text style={styles.arabic}>{dua.arabic}</Text>
 
       {showFull && (
         <>

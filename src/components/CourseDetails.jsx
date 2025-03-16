@@ -6,11 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const Courses = ({route}) => {
-  
   const navigation = useNavigation();
-
   //true = Enrolled Tab || false = Register Tab
-
   return (
   <View >
     <View style={styles.listStyle}>
@@ -37,7 +34,6 @@ const styles = StyleSheet.create(
     mainHeading:{
       color:'#FFFFFF',
       fontSize : 28,
-      // fontWeight : 'bold',
       textAlign:'center',
       paddingBottom:10,
       paddingTop:10,

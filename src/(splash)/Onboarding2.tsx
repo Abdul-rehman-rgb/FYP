@@ -28,7 +28,7 @@ const RoleSelection = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={styles.scrollContainer} 
         keyboardShouldPersistTaps="handled"
       >

@@ -4,9 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 
 // Screens
-import Chat from './Chat';
 import Courses from './Courses';
-import Library from './Library';
 import Home from './Home';
 import Setting from './Setting';
 import Attendance from '../components/Home/attendance/Attendance';
@@ -19,6 +17,7 @@ import Quiz from '../components/Quiz';
 import CourseDetails from '../components/CourseDetails';
 import QuizDetails from '../components/QuizDetails';
 import Leaderboard from '../components/Leaderboard';
+import QuizOnboard from '../components/quiz/QuizOnboard';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -58,6 +57,7 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false, }}>
       <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen name="Courses" component={Courses} />
       <Stack.Screen
         name="Attendance"
         component={Attendance}
@@ -155,13 +155,18 @@ const CourseStack = () => {
           headerTitleAlign: 'center',
           headerStyle: {backgroundColor: '#fff'},
         })}
-      />    
+      />
     </Stack.Navigator>
   )
 };
+
 const QuizStack = () => {
   return(
     <Stack.Navigator>
+      <Stack.Screen name='QuizOnboard' component={QuizOnboard} options={() => ({
+          headerShown: false,
+          headerStyle: {backgroundColor: '#fff'},
+        })} />
       <Stack.Screen 
       name="QuizMain"
       component={Quiz}
