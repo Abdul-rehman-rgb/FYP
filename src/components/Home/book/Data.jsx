@@ -1,4 +1,4 @@
-const duasData = [
+const BookData = [
     {
       id: 'dua_1',
       title: 'Arabic',
@@ -18,4 +18,4 @@ const duasData = [
       image: require('../../../assets/icons/DuaDhikr/toilet.png'),
     }
   ];
-  export default duasData;
+  export default BookData;
