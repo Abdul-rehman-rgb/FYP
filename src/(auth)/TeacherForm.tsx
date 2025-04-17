@@ -42,7 +42,7 @@ const TeacherForm = ({navigation}) => {
           value={form.password}
           handleChangeText={(e) => setForm({...form, password: e})}
           placeholder='Password' />
-          <ConfirmBtn title='Save & Continue' isLoading={isSubmitting} handlePress={handleSubmit} />
+          <ConfirmBtn title='Log in' isLoading={isSubmitting} handlePress={handleSubmit} />
         </View>
       </ScrollView>
     </SafeAreaView>

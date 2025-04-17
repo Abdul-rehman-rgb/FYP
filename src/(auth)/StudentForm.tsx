@@ -1,5 +1,5 @@
 import { View, StyleSheet, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -7,32 +7,58 @@ import Heading from '../components/Heading';
 import Paragraph from '../components/Paragraph';
 import FormField from '../components/FormField';
 import ConfirmBtn from '../components/ConfirmBtn';
+import axios from 'axios'
+import { userData } from '../Context/UserContext'
+
 
 const StudentForm = () => {
+  const {loggedInUser,setLoggedInUser,setLoggedInUserPfp, setLoggedInUserId} = userData()
   const navigation = useNavigation(); // Ensure navigation is initialized
-
+  const [error,setError] = useState()
   const [form, setForm] = useState({
-    studentId: '',
+    // studentId: '',
     email: '',
-    password: '',
+    pass: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // if (!form.studentId || !form.email || !form.password) {
     //   Alert.alert('Error', 'All fields are required!');
     //   return;
     // }
+    // setIsSubmitting(true);
+    try{
+      let response = await axios.post('http://10.0.2.2:5000/api/Login',form)
+      // let response = await axios.get('http://localhost:5000/')
+        // setLoggedInUserId(response.data._id)
+        // setLoggedInUserPfp(response.data.pfp)
+        // setLoggedInUser(response.data.Name)
+        // console.log(response.data.Name)
+        setLoggedInUser(response.data.Name)
+        // setIsSubmitting(false);
+        // navigation.replace('(tabs)');
+      }
+      catch(err)
+      {
+        setError(err.response.data)
+        console.log("err"+err)
+      }
 
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Alert.alert('Success', 'Registration completed!');
-      navigation.replace('(tabs)'); // Navigate to the main app
-    }, 1500);
+    // setTimeout(() => {
+    //   setIsSubmitting(false);
+    //   // Alert.alert('Success', 'Registration completed!');
+    //   navigation.replace('(tabs)'); // Navigate to the main app
+    // }, 1500);
   };
+
+  useEffect(() => {
+    if (loggedInUser !== 'Demo User') {
+      console.log(loggedInUser);      
+      navigation.replace('(tabs)');
+    }
+  }, [loggedInUser]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,17 +85,18 @@ const StudentForm = () => {
 
           <FormField
             title="Password"
-            value={form.password}
-            handleChangeText={(e) => setForm({ ...form, password: e })}
+            value={form.pass}
+            handleChangeText={(e) => setForm({ ...form, pass: e })}
             placeholder="Enter your password"
             secureTextEntry={true} // Hides password
           />
 
           <ConfirmBtn
-            title="Save & Continue"
+            title="Log in"
             isLoading={isSubmitting}
             handlePress={handleSubmit}
           />
+
         </View>
       </ScrollView>
     </SafeAreaView>

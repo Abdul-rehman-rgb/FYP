@@ -10,6 +10,7 @@ import Onboarding2 from './src/(splash)/Onboarding2';
 import logoImage from './src/assets/images/logo.png';
 import {Image, Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import ReminderLayout from './src/(Reminder)/_layout';
+import { UserContextProvider } from './src/Context/UserContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ const CustomHeader = () => (
 
 const AppNav = () => {
   return (
+    <UserContextProvider>
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Main" component={Main} />
@@ -74,6 +76,7 @@ const AppNav = () => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </UserContextProvider>
   );
 };
 

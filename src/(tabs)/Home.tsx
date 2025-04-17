@@ -12,6 +12,7 @@ import {
 import Progress from '../components/Home/Progress';
 import QuickAccess from '../components/Home/QuickAccess';
 import ViewAll from '../components/Home/ViewAll';
+import { userData } from '../Context/UserContext'
 
 const DATA = [
   {id: '1', title: 'Item 1', image: 'https://via.placeholder.com/150'},
@@ -20,7 +21,8 @@ const DATA = [
   {id: '4', title: 'Item 4', image: 'https://via.placeholder.com/150'},
 ];
 
-const Home = ({userName = 'Talha Saeed'}) => {
+const Home = () => {
+  const {loggedInUser,loggedInUserPfp, loggedInUserId} = userData()
   return (
     <>
     <ScrollView style={{backgroundColor:'white'}}>
@@ -32,7 +34,7 @@ const Home = ({userName = 'Talha Saeed'}) => {
         <View style={styles.container}>
           <View style={styles.textContainer}>
             <Text style={styles.greeting}>Assalamualaikum,</Text>
-            <Text style={styles.name}>{userName} 👋</Text>
+            <Text style={styles.name}>{loggedInUser} 👋</Text>
           </View>
 
           <View style={styles.iconsContainer}>

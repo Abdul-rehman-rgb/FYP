@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 
 const Data = 
 {
@@ -161,7 +161,6 @@ const Data =
 }
 
 const QuizDetails = ({navigation}) => {
-
     const [quizProgress,setQuizProgress] = useState(5)
     
     return(
@@ -278,7 +277,7 @@ const styles = StyleSheet.create({
     },
     tickImg:{
         position:'absolute',
-        marginVertical:'10%',
+        marginVertical:'6%',
         marginLeft:25,
         height:30,
         width:30

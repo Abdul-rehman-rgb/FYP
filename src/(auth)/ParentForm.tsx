@@ -63,7 +63,7 @@ const ParentForm = ({ navigation }) => {
           />
 
           <ConfirmBtn
-            title="Save & Continue"
+            title="Log in"
             isLoading={isSubmitting}
             handlePress={handleSubmit}
           />
