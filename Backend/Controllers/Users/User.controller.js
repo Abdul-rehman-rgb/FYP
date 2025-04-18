@@ -4,7 +4,7 @@ import Contact from '../../Models/Contacts.model.js'
 import Message from '../../Models/Message.model.js'
 import Room from '../../Models/Room.model.js'
 import Quiz from '../../Models/Quiz.model.js'
-import QuizDetail from '../../Models/QuizDetail.model.js'
+import QuizQuestions from '../../Models/QuizQuestions.model.js'
 
 async function AddUser(req,res,next){
     try
@@ -35,24 +35,68 @@ async function AddUser(req,res,next){
     }
 }
 async function AddQuiz(req,res,next){
+
+    /* add quiz data insert structure
+    {
+        "title": "Counting",
+        "t_questions": 20,
+        "questions":
+        [
+            {
+                "question": "what is the right counting?",
+                "answer_1": "735",
+                "answer_2": "824",
+                "answer_3": "456",
+                "answer_4": "936",
+                "r_answer": "456"
+                
+            },
+            {
+                "question": "what is the right counting?",
+                "answer_1": "735",
+                "answer_2": "824",
+                "answer_3": "456",
+                "answer_4": "936",
+                "r_answer": "456"
+            },
+            {
+                "question": "what is the right counting?",
+                "answer_1": "735",
+                "answer_2": "824",
+                "answer_3": "456",
+                "answer_4": "936",
+                "r_answer": "456"
+            }
+        ]
+    }*/
+
     try
     {
-        console.log(req.body)
-        let resp = await QuizDetail.QuizDetail.create(
-            {
-                "Question":req.body.question,
-                "Answer_1":req.body.answer_1,
-                "Answer_2":req.body.answer_2,
-                "Answer_3":req.body.answer_3,
-                "Answer_4":req.body.answer_4,
-                "R_Answer":req.body.r_answer
+        let resp;
+        let id_arr=[];
+        const questionPromises = req.body.questions.map(async(item)=> {
+            resp = await QuizQuestions.QuizQuestions.create(
+                {
+                    "Question":item.question,
+                    "Answer_1":item.answer_1,
+                    "Answer_2":item.answer_2,
+                    "Answer_3":item.answer_3,
+                    "Answer_4":item.answer_4,
+                    "R_Answer":item.r_answer
+                })
+                id_arr.push(resp._id)
+                console.log(resp._id);
+                
             }
         )
+        //wait for all promises to resolve before contnuing below code
+        await Promise.all(questionPromises);
+        
         let resp2 = await Quiz.Quiz.create(
             {
                 "Title":req.body.title,
                 "T_Questions":req.body.t_questions,
-                "Quiz_Detail":resp._id
+                "Quiz_Questions":id_arr
             }
         )
         res.status(201).send("Quiz Added Successfully")
