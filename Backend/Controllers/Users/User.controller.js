@@ -34,6 +34,36 @@ async function AddUser(req,res,next){
         // res.send(error.message)
     }
 }
+
+async function UpdatePoints(req,res,next){
+    try
+    {
+        console.log(req.body);
+        
+                // await User.User.findOne({"Email":req.body.email},{"Points":1})  both are correct syntax
+        const user = await User.User.findOne({"_id":req.body.id}).select("Points")
+
+        if(req.body.flag)
+        {
+            let resp = await User.User.updateOne({"_id":req.body.id},{ $set:{Points:user.Points+req.body.points}})
+            const updatedPoints = await User.User.findOne({"_id":req.body.id}).select("Points")
+            
+            res.status(200).send(updatedPoints)
+        }
+        else
+        {
+            let resp = await User.User.updateOne({"_id":req.body.id},{ $set:{Points:user.Points-req.body.points}})
+            const updatedPoints = await User.User.findOne({"_id":req.body.id}).select("Points")
+            
+            res.status(200).send(updatedPoints)
+        }
+    }
+    catch(error)
+    {
+        console.log(error.message);
+        // res.send(error.message)
+    }
+}
 async function AddQuiz(req,res,next){
 
     /* add quiz data insert structure
@@ -85,8 +115,7 @@ async function AddQuiz(req,res,next){
                     "R_Answer":item.r_answer
                 })
                 id_arr.push(resp._id)
-                console.log(resp._id);
-                
+                console.log(resp._id)  
             }
         )
         //wait for all promises to resolve before contnuing below code
@@ -105,6 +134,31 @@ async function AddQuiz(req,res,next){
     {
         console.log(error.message);
         // res.send(error.message)
+    }
+}
+async function getQuizes(req,res){
+    try
+    {
+        let quizes = await Quiz.Quiz.find()
+        res.status(200).send(quizes)
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(400).send(error)
+    }
+}
+
+async function getQuizeQuestion(req,res){
+    try
+    {
+        let question = await QuizQuestions.QuizQuestions.findOne({"_id":req.body.id})
+        res.status(200).send(question)
+    }
+    catch(error)
+    {
+        console.log(error)
+        res.status(400).send(error)
     }
 }
 
@@ -318,4 +372,4 @@ async function getGroupMembers(req,res){
     res.status(200).send(members)
 }
 
-export default {AddUser,AddQuiz,checkInput,getAllUsers,findUser,loginUser,SearchUser,addContact,getContacts,getMessages,getGroupMessages,createGroup,getGroups,getGroupMembers}
+export default {AddUser,AddQuiz,getQuizes,getQuizeQuestion,UpdatePoints,checkInput,getAllUsers,findUser,loginUser,SearchUser,addContact,getContacts,getMessages,getGroupMessages,createGroup,getGroups,getGroupMembers}

@@ -12,7 +12,7 @@ import { userData } from '../Context/UserContext'
 
 
 const StudentForm = () => {
-  const {loggedInUser,setLoggedInUser,setLoggedInUserPfp, setLoggedInUserId} = userData()
+  const {loggedInUser,setLoggedInUser,setLoggedInUserId,setLoggedInUserPfp,setLoggedInUserPoints} = userData()
   const navigation = useNavigation(); // Ensure navigation is initialized
   const [error,setError] = useState()
   const [form, setForm] = useState({
@@ -31,12 +31,15 @@ const StudentForm = () => {
     // setIsSubmitting(true);
     try{
       let response = await axios.post('http://10.0.2.2:5000/api/Login',form)
-      // let response = await axios.get('http://localhost:5000/')
         // setLoggedInUserId(response.data._id)
         // setLoggedInUserPfp(response.data.pfp)
         // setLoggedInUser(response.data.Name)
         // console.log(response.data.Name)
+        console.log(response.data);
+        
+        setLoggedInUserId(response.data._id)
         setLoggedInUser(response.data.Name)
+        setLoggedInUserPoints(response.data.Points)
         // setIsSubmitting(false);
         // navigation.replace('(tabs)');
       }

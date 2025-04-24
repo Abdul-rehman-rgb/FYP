@@ -13,7 +13,9 @@ import QuizProgressCard from './Home/Progress';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { useNavigation } from '@react-navigation/native';
 import { userData } from '../Context/UserContext';
+import axios from 'axios'
 
+let image = 'https://via.placeholder.com/150';
 const DATA = [
   {id: '1', title: 'Item 1', image: 'https://via.placeholder.com/150'},
   {id: '2', title: 'Item 2', image: 'https://via.placeholder.com/150'},
@@ -27,18 +29,18 @@ const latestQuiz = [
   {id: '4', title: 'Quiz 4', questions: '20'},
 ];
 
-const QuizCard = ({ course }) => {
+const QuizCard = ({ quiz }) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={()=>{navigation.navigate('QuizDetails', {course:course})}}
+      onPress={()=>{navigation.navigate('QuizDetails', {course:quiz})}}
     >
       <Image source={require('../assets/icons/LatestQuizIcon.png')} style={styles.ltQuizIcon}/>
       <View style={styles.textView}>
-        <Text style={styles.title}>{course.title}</Text>
-        <Text style={styles.questions}>{course.questions} Questions</Text>
+        <Text style={styles.title}>{quiz.Title}</Text>
+        <Text style={styles.questions}>{quiz.T_Questions} Questions</Text>
       </View>
       <View style={{marginRight:40}}>
       <CircularProgress 
@@ -60,7 +62,19 @@ const QuizCard = ({ course }) => {
 
 
 const Quiz = ({navigation}) => {
-  const {loggedInUser} = userData()
+  const {loggedInUser,loggedInUserPoints} = userData()
+  const [quizes,setQuizes] = useState([])
+
+  useEffect(()=>{
+    getQuizes();
+  },[])
+  
+  async function getQuizes()
+  {
+    let Quizes = await axios.get('http://10.0.2.2:5000/api/getQuizes')
+    setQuizes(Quizes.data)
+  }
+  
   return (
     <>
     <View style={styles.mainContainer}>
@@ -76,7 +90,7 @@ const Quiz = ({navigation}) => {
           </View>
 
           <View style={styles.coinContainer}>
-            <Text style={styles.coinText}>600</Text>
+            <Text style={styles.coinText}>{loggedInUserPoints}</Text>
             <View style={styles.coinImageWrapper}>
               <Image style={styles.coinImage} source={require('../assets/images/coins.png')}/>
             </View>
@@ -86,10 +100,10 @@ const Quiz = ({navigation}) => {
         {/* Progress List */}
         <View style={styles.progressContainer}>
           <FlatList
-            data={DATA}
-            keyExtractor={item => item.id}
+            data={quizes}
+            keyExtractor={item => item._id}
             renderItem={({item}) => (
-              <QuizProgressCard title={item.title} image={item.image} />
+              <QuizProgressCard title={item.Title}  image={image}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -100,9 +114,9 @@ const Quiz = ({navigation}) => {
         </View>
         <View style={styles.latestQuiz}>
             <FlatList
-            data={latestQuiz}
-            keyExtractor={item=> item.id}
-            renderItem={({item})=>( <QuizCard course={item} /> )}
+            data={quizes}
+            keyExtractor={item => item._id}
+            renderItem={({item})=>( <QuizCard quiz={item} /> )}
             />
         </View>
       </View>

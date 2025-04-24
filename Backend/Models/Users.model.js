@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema(
         Gender:{type:String,required:[true,"Gender is Required"]},
         Phone:{type:Number,required:[true,"Phone is Required"]},
         pfp:{type:String,required:[true,"Picture is Required"]},
-        Groups:[mongoose.Schema.Types.ObjectID]
+        Points:{type:Number},
+        InProgQuizes:[{type:mongoose.Schema.Types.ObjectID,ref:"Quiz"}]
     }
 )
 

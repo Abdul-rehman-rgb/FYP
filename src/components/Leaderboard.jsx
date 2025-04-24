@@ -1,13 +1,15 @@
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    TouchableOpacity,
-    ScrollView,
-    FlatList
-  } from 'react-native';
-import React from 'react'
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  FlatList
+} from 'react-native';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { userData } from '../Context/UserContext';
 
 const latestQuiz = [
     {id: '1', name: 'Player 1', points: '2500'},
@@ -27,8 +29,8 @@ return (
     >
     <Image source={require('../assets/icons/LatestQuizIcon.png')} style={styles.ltQuizIcon}/>
     <View style={styles.textView}>
-        <Text style={styles.title}>{course.name}</Text>
-        <Text style={styles.questions}>{course.points} QP </Text>
+        <Text style={styles.title}>{course.Name}</Text>
+        <Text style={styles.questions}>{course.Points} QP </Text>
     </View>
     </TouchableOpacity>
 );
@@ -36,6 +38,33 @@ return (
 
 
 const Leaderboard = () => {
+  const {loggedInUserPoints} = userData();
+  const [users,setUsers] = useState([])
+  let index = 0
+
+  useEffect(()=>{
+    console.log("useeffect called");
+    
+    getAllUsers();
+  },[])
+
+  async function getAllUsers()
+  {
+    try
+    {
+      console.log("Get users called")
+      let usersData = await axios.get('http://10.0.2.2:5000/api/getAllUsers')
+      console.log("xDDDDDD")
+      console.log(usersData.data);
+      setUsers(usersData.data)
+    }
+    catch(err)
+    {
+      console.log(err)     
+    }
+      
+  }
+
   return (
     <View style={{flex:1,backgroundColor:'white'}}>
         <Image style={styles.headerImg} source={require('../assets/images/QuizHeaderBG.png')}/>
@@ -52,7 +81,7 @@ const Leaderboard = () => {
             <Text style={{fontSize:20,fontWeight:'bold'}}>Leaderboard</Text>
             </View>
             <View style={styles.coinContainer}>
-                <Text style={styles.coinText}>600</Text>
+                <Text style={styles.coinText}>{loggedInUserPoints}</Text>
                 <View style={styles.coinImageWrapper}>
                     <Image style={styles.coinImage} source={require('../assets/images/coins.png')}/>
                 </View>
@@ -112,11 +141,18 @@ const Leaderboard = () => {
             <Text style={styles.ltQuizHead}>Leaderboard</Text>
         </View>
         <View style={styles.latestQuiz}>
-        {latestQuiz.map((item)=>(
-            <View key={item.id}>
+        {users.map((item)=>
+        {
+          if(index < 100)
+          {
+            index++
+            return (
+              <View key={item._id}>
                 <QuizCard course={item} />
-            </View>
-        ))
+              </View>
+            )
+          }
+        })
         }
         </View>
 

@@ -72,7 +72,7 @@ app.get('/api/user/:User',UserControllers.findUser)
 
 app.post('/api/search-user',UserControllers.SearchUser)
 
-app.get('/api/Users',UserControllers.getAllUsers)
+app.get('/api/getAllUsers',UserControllers.getAllUsers)
 
 app.post('/api/getContacts',UserControllers.getContacts)
 
@@ -93,3 +93,9 @@ app.post('/api/createGroup',upload.single('pfp'),UserControllers.createGroup)
 app.post('/api/getGroupMembers',UserControllers.getGroupMembers)
 
 app.post('/api/addQuiz',UserControllers.AddQuiz)
+
+app.get('/api/getQuizes',UserControllers.getQuizes)
+
+app.post('/api/getQuizQuestion',UserControllers.getQuizeQuestion)
+
+app.post('/api/updatePoints',UserControllers.UpdatePoints)
