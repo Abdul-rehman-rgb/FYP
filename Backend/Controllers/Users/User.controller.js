@@ -5,6 +5,7 @@ import Message from '../../Models/Message.model.js'
 import Room from '../../Models/Room.model.js'
 import Quiz from '../../Models/Quiz.model.js'
 import QuizQuestions from '../../Models/QuizQuestions.model.js'
+import IncompleteQuiz from '../../Models/IncompleteQuiz.model.js'
 
 async function AddUser(req,res,next){
     try
@@ -37,10 +38,8 @@ async function AddUser(req,res,next){
 
 async function UpdatePoints(req,res,next){
     try
-    {
-        console.log(req.body);
-        
-                // await User.User.findOne({"Email":req.body.email},{"Points":1})  both are correct syntax
+    {        
+                  // await User.User.findOne({"Email":req.body.email},{"Points":1})  both are correct syntax
         const user = await User.User.findOne({"_id":req.body.id}).select("Points")
 
         if(req.body.flag)
@@ -65,40 +64,6 @@ async function UpdatePoints(req,res,next){
     }
 }
 async function AddQuiz(req,res,next){
-
-    /* add quiz data insert structure
-    {
-        "title": "Counting",
-        "t_questions": 20,
-        "questions":
-        [
-            {
-                "question": "what is the right counting?",
-                "answer_1": "735",
-                "answer_2": "824",
-                "answer_3": "456",
-                "answer_4": "936",
-                "r_answer": "456"
-                
-            },
-            {
-                "question": "what is the right counting?",
-                "answer_1": "735",
-                "answer_2": "824",
-                "answer_3": "456",
-                "answer_4": "936",
-                "r_answer": "456"
-            },
-            {
-                "question": "what is the right counting?",
-                "answer_1": "735",
-                "answer_2": "824",
-                "answer_3": "456",
-                "answer_4": "936",
-                "r_answer": "456"
-            }
-        ]
-    }*/
 
     try
     {
@@ -139,8 +104,29 @@ async function AddQuiz(req,res,next){
 async function getQuizes(req,res){
     try
     {
-        let quizes = await Quiz.Quiz.find()
-        res.status(200).send(quizes)
+        const quizes = await Quiz.Quiz.find()
+        let quiz = []
+        await Promise.all(
+        quizes.map(async(item,index)=>{
+            const inc_quiz = await IncompleteQuiz.incompleteQuiz.findOne({$and:[{"User_id":req.body.user_id},{"Quiz_id":item._id}]})
+            if(inc_quiz)
+            {
+                // quizes[index].completed=inc_quiz.Completed
+                quiz[index] = {
+                    quiz : item,
+                    completed : inc_quiz.Completed
+                }
+            }
+            else
+            {
+                quiz[index] = {
+                    quiz : item,
+                    completed : 0
+                }
+            }
+        })
+        )
+        res.status(200).send(quiz)
     }
     catch(error)
     {
@@ -149,7 +135,7 @@ async function getQuizes(req,res){
     }
 }
 
-async function getQuizeQuestion(req,res){
+async function getQuizQuestion(req,res){
     try
     {
         let question = await QuizQuestions.QuizQuestions.findOne({"_id":req.body.id})
@@ -159,6 +145,26 @@ async function getQuizeQuestion(req,res){
     {
         console.log(error)
         res.status(400).send(error)
+    }
+}
+
+async function addIncompleteQuiz(req,res){
+    try
+    {
+        const quiz = await IncompleteQuiz.incompleteQuiz.updateOne({$and:[{"User_id":req.body.user_id},{"Quiz_id":req.body.quiz_id}]},{$set:{Completed:req.body.completed}})
+        if(quiz.matchedCount === 0)
+        {
+            const inc_quiz = await IncompleteQuiz.incompleteQuiz.create({
+                "User_id":req.body.user_id,
+                "Quiz_id":req.body.quiz_id,
+                "Completed":req.body.completed
+            })
+        }
+        res.status(200).send("updated successfully")
+    }
+    catch(err)
+    {
+        console.log(err);
     }
 }
 
@@ -372,4 +378,6 @@ async function getGroupMembers(req,res){
     res.status(200).send(members)
 }
 
-export default {AddUser,AddQuiz,getQuizes,getQuizeQuestion,UpdatePoints,checkInput,getAllUsers,findUser,loginUser,SearchUser,addContact,getContacts,getMessages,getGroupMessages,createGroup,getGroups,getGroupMembers}
+export default {AddUser,AddQuiz,getQuizes,getQuizQuestion,UpdatePoints,addIncompleteQuiz,checkInput,getAllUsers,findUser,loginUser,SearchUser,addContact,getContacts,getMessages,getGroupMessages,createGroup,getGroups,getGroupMembers}
+
+

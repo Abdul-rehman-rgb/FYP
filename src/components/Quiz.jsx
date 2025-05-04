@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import QuizProgressCard from './Home/Progress';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useIsFocused } from '@react-navigation/native';
 import { userData } from '../Context/UserContext';
 import axios from 'axios'
 
@@ -31,7 +31,9 @@ const latestQuiz = [
 
 const QuizCard = ({ quiz }) => {
   const navigation = useNavigation();
-
+  const percent = quiz.quiz.T_Questions > 0 
+  ? (quiz.completed / quiz.quiz.T_Questions) * 100 
+  : 0;
   return (
     <TouchableOpacity
       style={styles.card}
@@ -39,12 +41,12 @@ const QuizCard = ({ quiz }) => {
     >
       <Image source={require('../assets/icons/LatestQuizIcon.png')} style={styles.ltQuizIcon}/>
       <View style={styles.textView}>
-        <Text style={styles.title}>{quiz.Title}</Text>
-        <Text style={styles.questions}>{quiz.T_Questions} Questions</Text>
+        <Text style={styles.title}>{quiz.quiz.Title}</Text>
+        <Text style={styles.questions}>{quiz.quiz.T_Questions} Questions</Text>
       </View>
       <View style={{marginRight:40}}>
       <CircularProgress 
-        value={60}
+        value={percent}
         radius={25}
         progressValueColor='rgba(54,178,149,1)'
         maxValue={100}
@@ -62,17 +64,21 @@ const QuizCard = ({ quiz }) => {
 
 
 const Quiz = ({navigation}) => {
-  const {loggedInUser,loggedInUserPoints} = userData()
+  const {loggedInUser,loggedInUserPoints,loggedInUserId} = userData()
   const [quizes,setQuizes] = useState([])
+  const isFocused = useIsFocused()
 
   useEffect(()=>{
-    getQuizes();
-  },[])
+    if(isFocused)
+      getQuizes();
+  },[isFocused])
   
   async function getQuizes()
   {
-    let Quizes = await axios.get('http://10.0.2.2:5000/api/getQuizes')
+    let id = {user_id: loggedInUserId}
+    let Quizes = await axios.post('http://10.0.2.2:5000/api/getQuizes',id)
     setQuizes(Quizes.data)
+        
   }
   
   return (
@@ -101,9 +107,9 @@ const Quiz = ({navigation}) => {
         <View style={styles.progressContainer}>
           <FlatList
             data={quizes}
-            keyExtractor={item => item._id}
+            keyExtractor={item => item.quiz._id}
             renderItem={({item}) => (
-              <QuizProgressCard title={item.Title}  image={image}/>
+              <QuizProgressCard title={item.quiz.Title}  image={image}/>
             )}
             horizontal
             showsHorizontalScrollIndicator={false}
@@ -115,7 +121,7 @@ const Quiz = ({navigation}) => {
         <View style={styles.latestQuiz}>
             <FlatList
             data={quizes}
-            keyExtractor={item => item._id}
+            keyExtractor={item => item.quiz._id}
             renderItem={({item})=>( <QuizCard quiz={item} /> )}
             />
         </View>

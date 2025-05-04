@@ -94,8 +94,10 @@ app.post('/api/getGroupMembers',UserControllers.getGroupMembers)
 
 app.post('/api/addQuiz',UserControllers.AddQuiz)
 
-app.get('/api/getQuizes',UserControllers.getQuizes)
+app.post('/api/getQuizes',UserControllers.getQuizes)
 
-app.post('/api/getQuizQuestion',UserControllers.getQuizeQuestion)
+app.post('/api/getQuizQuestion',UserControllers.getQuizQuestion)
 
 app.post('/api/updatePoints',UserControllers.UpdatePoints)
+
+app.post('/api/addIncompleteQuiz',UserControllers.addIncompleteQuiz)
